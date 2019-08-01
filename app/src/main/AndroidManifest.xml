@@ -29,6 +29,7 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
+
         <activity android:name=".ui.main.MainSelectionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
@@ -41,11 +42,19 @@
             </intent-filter>
         </activity>
 
+        <!-- 1. Simple Demo -->
         <activity
                 android:name=".ui.map.MapsActivity"
                 android:launchMode="singleTop"
-                android:label="@string/title_activity_maps">
+                android:label="@string/title_map_simple_activity">
 
+        </activity>
+
+        <!-- 2. Map with Polygon -->
+        <activity
+                android:name=".ui.map.MapPolygonActivity"
+                android:launchMode="singleTop"
+                android:label="@string/title_map_polygon_activity">
         </activity>
 
     </application>
