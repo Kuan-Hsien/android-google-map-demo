@@ -5,4 +5,14 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="colorPrimaryLight">#70AA99</color>
+
+
+    <!-- color setting for MapPolygonActivity -->
+    <color name="color_black_argb">#000000</color>
+    <color name="color_white_argb">#ffffff</color>
+    <color name="color_green_stroke">#388E3C</color>
+    <color name="color_green_fill">#81C784</color>
+    <color name="color_orange_stroke">#F57F17</color>
+    <color name="color_orange_fill">#F9A825</color>
+
 </resources>

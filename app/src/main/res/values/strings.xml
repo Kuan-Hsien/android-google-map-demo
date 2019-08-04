@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Google Map Demo</string>
     <string name="title_activity_maps">Map</string>
+
     <string name="title_map_simple_activity">Simple Map</string>
+    <string name="title_map_polygon_activity">Map with Polygon</string>
 </resources>

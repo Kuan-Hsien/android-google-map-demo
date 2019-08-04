@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kuanhsien.app.sample.android_google_map_demo.R
 import com.kuanhsien.app.sample.android_google_map_demo.data.DemoType
+import com.kuanhsien.app.sample.android_google_map_demo.ui.map.MapPolygonActivity
 import com.kuanhsien.app.sample.android_google_map_demo.ui.map.MapsActivity
 import kotlinx.android.synthetic.main.activity_main_selection.*
 
@@ -63,6 +64,9 @@ class MainSelectionActivity : AppCompatActivity(),
             val intent = when (type) {
                 DemoType.MapSimple ->
                     Intent(this, MapsActivity::class.java)
+
+                DemoType.MapWithPolygon ->
+                    Intent(this, MapPolygonActivity::class.java)
             }
 
             startActivity(intent)
