@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kuanhsien.app.sample.android_google_map_demo.R
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MarkerSimpleDemoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
