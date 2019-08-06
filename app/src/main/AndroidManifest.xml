@@ -42,19 +42,23 @@
             </intent-filter>
         </activity>
 
-        <!-- 1. Simple Demo -->
+        <!-- [Marker] Simple demo -->
         <activity
-                android:name=".ui.map.MapsActivity"
-                android:launchMode="singleTop"
-                android:label="@string/title_map_simple_activity">
-
+                android:name=".ui.map.MarkerSimpleDemoActivity"
+                android:label="@string/title_activity_marker_simple_demo">
         </activity>
 
-        <!-- 2. Map with Polygon -->
+        <!-- [Marker] Re-tap to close info window demo -->
         <activity
-                android:name=".ui.map.MapPolygonActivity"
-                android:launchMode="singleTop"
-                android:label="@string/title_map_polygon_activity">
+            android:name=".ui.map.MarkerRetapCloseInfoDemoActivity"
+            android:launchMode="singleTop"
+            android:label="@string/title_activity_marker_retap_close_info_demo">
+        </activity>
+
+        <!-- [Polygon] Simple demo -->
+        <activity
+                android:name=".ui.map.PolygonSimpleDemoActivity"
+                android:label="@string/title_activity_polygon_simple_demo">
         </activity>
 
     </application>

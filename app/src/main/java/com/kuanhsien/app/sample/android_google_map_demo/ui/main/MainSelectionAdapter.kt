@@ -8,10 +8,11 @@ import com.kuanhsien.app.sample.android_google_map_demo.R
 import com.kuanhsien.app.sample.android_google_map_demo.data.DemoType
 import kotlinx.android.synthetic.main.listitem_linear_vertical_viewholder.view.*
 
+
 class MainSelectionAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(type: DemoType)
+        fun onItemClick(demoType: DemoType)
     }
 
     private var listener: OnItemClickListener? = null

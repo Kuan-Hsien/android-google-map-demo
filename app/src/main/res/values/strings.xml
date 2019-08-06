@@ -2,6 +2,13 @@
     <string name="app_name">Google Map Demo</string>
     <string name="title_activity_maps">Map</string>
 
-    <string name="title_map_simple_activity">Simple Map</string>
-    <string name="title_map_polygon_activity">Map with Polygon</string>
+    <!-- [Marker] Simple demo -->
+    <string name="title_activity_marker_simple_demo">[Marker] Simple Demo</string>
+
+    <!-- [Marker] Re-tap to close info window -->
+    <string name="title_activity_marker_retap_close_info_demo">[Marker] Retap to close info</string>
+    <string name="desc_activity_marker_retap_close_info_demo">Demonstrates how to close the info window when the currently selected marker is re-tapped.</string>
+
+    <!-- [Polygon] Simple demo -->
+    <string name="title_activity_polygon_simple_demo">[Polygon] Simple Demo</string>
 </resources>

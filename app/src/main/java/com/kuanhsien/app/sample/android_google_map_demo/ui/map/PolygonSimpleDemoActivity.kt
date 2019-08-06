@@ -30,7 +30,7 @@ enum class PolylineType(val tag: String) {
  * An activity that displays a Google map with polylines to represent paths or routes,
  * and polygons to represent areas.
  */
-class MapPolygonActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnPolylineClickListener, GoogleMap.OnPolygonClickListener {
+class PolygonSimpleDemoActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnPolylineClickListener, GoogleMap.OnPolygonClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,7 +193,7 @@ class MapPolygonActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.On
 
             polyline.endCap = RoundCap()
             polyline.width = POLYLINE_STROKE_WIDTH_PX.toFloat()
-            polyline.color = ContextCompat.getColor(this, R.color.color_black_argb)
+            polyline.color = ContextCompat.getColor(this, R.color.black)
             polyline.jointType = JointType.ROUND
         }
     }
@@ -205,8 +205,8 @@ class MapPolygonActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.On
     private fun stylePolygon(polygon: Polygon) {
 
         var pattern = listOf<PatternItem>()
-        var strokeColor = ContextCompat.getColor(this, R.color.color_black_argb)
-        var fillColor = ContextCompat.getColor(this, R.color.color_white_argb)
+        var strokeColor = ContextCompat.getColor(this, R.color.black)
+        var fillColor = ContextCompat.getColor(this, R.color.white)
 
         // Get the data object stored with the polygon.
         polygon.tag?.let { typeTag ->
