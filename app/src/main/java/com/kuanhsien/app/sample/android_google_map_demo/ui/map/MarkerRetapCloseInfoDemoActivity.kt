@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kuanhsien.app.sample.android_google_map_demo.R
+import com.kuanhsien.app.sample.android_google_map_demo.ui.common.OnMapAndViewReadyListener
 
 /**
  * This shows how to close the info window when the currently selected marker is re-tapped.
@@ -72,10 +73,10 @@ class MarkerRetapCloseInfoDemoActivity :
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
-        // Return if googleMap was null
-        map = googleMap ?: return
 
-        with(map) {
+        // Return if googleMap was null
+        googleMap?.run {
+
             uiSettings.isZoomControlsEnabled = false
 
             setOnMarkerClickListener(markerClickListener)

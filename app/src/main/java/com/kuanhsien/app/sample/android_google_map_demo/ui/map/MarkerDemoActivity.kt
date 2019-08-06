@@ -2,7 +2,6 @@ package com.kuanhsien.app.sample.android_google_map_demo.ui.map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -11,7 +10,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kuanhsien.app.sample.android_google_map_demo.R
 
-class MarkerSimpleDemoActivity : AppCompatActivity(), OnMapReadyCallback {
+class MarkerDemoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 

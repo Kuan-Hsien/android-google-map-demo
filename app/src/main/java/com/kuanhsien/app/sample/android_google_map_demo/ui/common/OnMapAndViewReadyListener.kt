@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.map
+package com.kuanhsien.app.sample.android_google_map_demo.ui.common
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -33,8 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment
 class OnMapAndViewReadyListener(
     private val mapFragment: SupportMapFragment,
     private val toBeNotified: OnGlobalLayoutAndMapReadyListener
-) : OnGlobalLayoutListener,
-    OnMapReadyCallback {
+) : OnGlobalLayoutListener, OnMapReadyCallback {
 
     private val mapView: View? = mapFragment.view
 
