@@ -61,6 +61,13 @@
             android:label="@string/title_activity_cluster_demo">
         </activity>
 
+        <!-- [Cluster] Custom Marker clustering demo -->
+        <!-- Demonstrates heavy customisation of the look of rendered clusters. -->
+        <activity
+            android:name=".ui.map.ClusterCustomMarkerDemoActivity"
+            android:label="@string/title_activity_cluster_custom_marker_demo">
+        </activity>
+
         <!-- [Polygon] Simple demo -->
         <activity
             android:name=".ui.map.PolygonDemoActivity"
