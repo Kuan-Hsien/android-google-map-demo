@@ -9,6 +9,7 @@ buildscript {
         recyclerviewVersion = '1.0.0'
         lifecycleVersion = '2.0.0'
         googlePlayServiceVersion = '17.0.0'
+        googleMapUtilVersion = '0.5+'
     }
 
     repositories {

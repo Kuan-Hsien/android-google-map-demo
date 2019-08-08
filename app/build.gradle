@@ -42,6 +42,8 @@ dependencies {
     // Google Play Service
     implementation "com.google.android.gms:play-services-maps:$googlePlayServiceVersion"
 
+    // Google Map utils such as Cluster Manager
+    implementation "com.google.maps.android:android-maps-utils:$googleMapUtilVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

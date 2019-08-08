@@ -30,7 +30,7 @@ enum class PolylineType(val tag: String) {
  * An activity that displays a Google map with polylines to represent paths or routes,
  * and polygons to represent areas.
  */
-class PolygonSimpleDemoActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnPolylineClickListener, GoogleMap.OnPolygonClickListener {
+class PolygonDemoActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnPolylineClickListener, GoogleMap.OnPolygonClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

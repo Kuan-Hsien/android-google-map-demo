@@ -44,21 +44,27 @@
 
         <!-- [Marker] Simple demo -->
         <activity
-                android:name=".ui.map.MarkerSimpleDemoActivity"
-                android:label="@string/title_activity_marker_simple_demo">
+            android:name=".ui.map.MarkerDemoActivity"
+            android:label="@string/title_activity_marker_demo">
         </activity>
 
         <!-- [Marker] Re-tap to close info window demo -->
         <activity
             android:name=".ui.map.MarkerRetapCloseInfoDemoActivity"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_marker_retap_close_info_demo">
+        </activity>
+
+        <!-- [Cluster] Simple demo -->
+        <!-- A simple activity demonstrating marker clustering -->
+        <activity
+            android:name=".ui.map.ClusterDemoActivity"
+            android:label="@string/title_activity_cluster_demo">
         </activity>
 
         <!-- [Polygon] Simple demo -->
         <activity
-                android:name=".ui.map.PolygonSimpleDemoActivity"
-                android:label="@string/title_activity_polygon_simple_demo">
+            android:name=".ui.map.PolygonDemoActivity"
+            android:label="@string/title_activity_polygon_demo">
         </activity>
 
     </application>

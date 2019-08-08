@@ -7,7 +7,7 @@
     <color name="colorPrimaryLight">#70AA99</color>
 
 
-    <!-- color setting for PolygonSimpleDemoActivity -->
+    <!-- [Polygon] Simple demo -->
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="color_green_stroke">#388E3C</color>
