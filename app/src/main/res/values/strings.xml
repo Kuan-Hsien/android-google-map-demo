@@ -13,6 +13,10 @@
     <!-- A simple activity demonstrating marker clustering -->
     <string name="title_activity_cluster_demo">[Cluster] Marker clustering demo</string>
 
+    <!-- [Cluster] Custom Marker clustering demo -->
+    <!-- Demonstrates heavy customisation of the look of rendered clusters. -->
+    <string name="title_activity_cluster_custom_marker_demo">[Cluster] Custom Marker clustering demo</string>
+
     <!-- [Polygon] Simple demo -->
     <string name="title_activity_polygon_demo">[Polygon] Simple Demo</string>
 </resources>
