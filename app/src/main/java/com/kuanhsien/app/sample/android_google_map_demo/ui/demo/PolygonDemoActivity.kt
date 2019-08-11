@@ -1,4 +1,4 @@
-package com.kuanhsien.app.sample.android_google_map_demo.ui.map
+package com.kuanhsien.app.sample.android_google_map_demo.ui.demo
 
 import android.os.Bundle
 import android.widget.Toast

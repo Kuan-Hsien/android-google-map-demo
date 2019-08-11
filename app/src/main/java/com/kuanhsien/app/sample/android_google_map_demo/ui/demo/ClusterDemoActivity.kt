@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.map
+package com.kuanhsien.app.sample.android_google_map_demo.ui.demo
 
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterManager
 import com.kuanhsien.app.sample.android_google_map_demo.R
 import com.kuanhsien.app.sample.android_google_map_demo.data.MapClusterItem
-import com.kuanhsien.app.sample.android_google_map_demo.ui.common.BaseDemoActivity
+import com.kuanhsien.app.sample.android_google_map_demo.ui.base.BaseDemoActivity
 import com.kuanhsien.app.sample.android_google_map_demo.util.MapClusterItemReader
 import org.json.JSONException
 

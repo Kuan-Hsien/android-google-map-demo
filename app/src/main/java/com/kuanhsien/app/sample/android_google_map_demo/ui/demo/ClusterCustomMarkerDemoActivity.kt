@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.map
+package com.kuanhsien.app.sample.android_google_map_demo.ui.demo
 
 import android.graphics.drawable.Drawable
 import android.util.Log
@@ -32,9 +32,9 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ui.IconGenerator
 import com.kuanhsien.app.sample.android_google_map_demo.R
+import com.kuanhsien.app.sample.android_google_map_demo.common.MapConstants.TAG_DEMO
 import com.kuanhsien.app.sample.android_google_map_demo.data.PersonClusterItem
-import com.kuanhsien.app.sample.android_google_map_demo.ui.common.BaseDemoActivity
-import com.kuanhsien.app.sample.android_google_map_demo.ui.common.TAG_DEMO
+import com.kuanhsien.app.sample.android_google_map_demo.ui.base.BaseDemoActivity
 import com.kuanhsien.app.sample.android_google_map_demo.util.MultiDrawable
 import java.util.*
 import kotlin.math.min
