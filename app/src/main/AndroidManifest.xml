@@ -44,33 +44,39 @@
 
         <!-- [Marker] Simple demo -->
         <activity
-            android:name=".ui.map.MarkerDemoActivity"
+            android:name=".ui.demo.MarkerDemoActivity"
             android:label="@string/title_activity_marker_demo">
         </activity>
 
         <!-- [Marker] Re-tap to close info window demo -->
         <activity
-            android:name=".ui.map.MarkerRetapCloseInfoDemoActivity"
+            android:name=".ui.demo.MarkerRetapCloseInfoDemoActivity"
             android:label="@string/title_activity_marker_retap_close_info_demo">
         </activity>
 
         <!-- [Cluster] Simple demo -->
         <!-- A simple activity demonstrating marker clustering -->
         <activity
-            android:name=".ui.map.ClusterDemoActivity"
+            android:name=".ui.demo.ClusterDemoActivity"
             android:label="@string/title_activity_cluster_demo">
         </activity>
 
         <!-- [Cluster] Custom Marker clustering demo -->
         <!-- Demonstrates heavy customisation of the look of rendered clusters. -->
         <activity
-            android:name=".ui.map.ClusterCustomMarkerDemoActivity"
+            android:name=".ui.demo.ClusterCustomMarkerDemoActivity"
             android:label="@string/title_activity_cluster_custom_marker_demo">
+        </activity>
+
+        <!-- [IconGenerator] Simple demo -->
+        <activity
+            android:name=".ui.demo.IconGeneratorDemoActivity"
+            android:label="@string/title_activity_icon_generator_demo">
         </activity>
 
         <!-- [Polygon] Simple demo -->
         <activity
-            android:name=".ui.map.PolygonDemoActivity"
+            android:name=".ui.demo.PolygonDemoActivity"
             android:label="@string/title_activity_polygon_demo">
         </activity>
 

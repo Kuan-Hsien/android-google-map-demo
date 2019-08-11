@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.common
+package com.kuanhsien.app.sample.android_google_map_demo.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

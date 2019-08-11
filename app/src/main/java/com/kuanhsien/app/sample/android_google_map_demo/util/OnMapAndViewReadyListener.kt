@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.common
+package com.kuanhsien.app.sample.android_google_map_demo.util
 
 import android.annotation.SuppressLint
 import android.os.Build

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.kuanhsien.app.sample.android_google_map_demo.ui.map
+package com.kuanhsien.app.sample.android_google_map_demo.ui.demo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.kuanhsien.app.sample.android_google_map_demo.R
-import com.kuanhsien.app.sample.android_google_map_demo.ui.common.OnMapAndViewReadyListener
+import com.kuanhsien.app.sample.android_google_map_demo.util.OnMapAndViewReadyListener
 
 /**
  * This shows how to close the info window when the currently selected marker is re-tapped.
