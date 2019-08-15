@@ -24,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
@@ -41,6 +44,7 @@ dependencies {
 
     // Google Play Service
     implementation "com.google.android.gms:play-services-maps:$googlePlayServiceVersion"
+    implementation "com.google.android.gms:play-services-location:$googlePlayServiceVersion"
 
     // Google Map utils such as Cluster Manager
     implementation "com.google.maps.android:android-maps-utils:$googleMapUtilVersion"

@@ -74,6 +74,12 @@
             android:label="@string/title_activity_icon_generator_demo">
         </activity>
 
+        <!-- [Location] Simple demo -->
+        <activity
+            android:name=".ui.demo.LocationDemoActivity"
+            android:label="@string/title_activity_location_demo">
+        </activity>
+
         <!-- [Polygon] Simple demo -->
         <activity
             android:name=".ui.demo.PolygonDemoActivity"

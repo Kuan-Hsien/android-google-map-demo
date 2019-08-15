@@ -39,7 +39,7 @@ class PolygonDemoActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.O
         setContentView(R.layout.activity_maps)
 
         // Get the SupportMapFragment and request notification when the map is ready to be used.
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
 
