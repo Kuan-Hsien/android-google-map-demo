@@ -35,8 +35,6 @@ class MarkerRetapCloseInfoDemoActivity :
     AppCompatActivity(),
     OnMapAndViewReadyListener.OnGlobalLayoutAndMapReadyListener {
 
-    private lateinit var map: GoogleMap
-
     /** Keeps track of the selected marker. It will be set to null if no marker is selected. */
     private var selectedMarker: Marker? = null
 
@@ -64,9 +62,9 @@ class MarkerRetapCloseInfoDemoActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_marker_close_info_window_on_retap_demo)
+        setContentView(R.layout.activity_maps)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.fragment_map) as SupportMapFragment
 
         // Replace getMapAsync with OnMapAndViewReadyListener
         OnMapAndViewReadyListener(mapFragment, this)

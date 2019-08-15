@@ -20,6 +20,9 @@
     <!-- [IconGenerator] Simple demo -->
     <string name="title_activity_icon_generator_demo">[Icon Generator] Simple demo</string>
 
+    <!-- [Location] Simple demo -->
+    <string name="title_activity_location_demo">[Location] Simple Demo</string>
+
     <!-- [Polygon] Simple demo -->
     <string name="title_activity_polygon_demo">[Polygon] Simple Demo</string>
 

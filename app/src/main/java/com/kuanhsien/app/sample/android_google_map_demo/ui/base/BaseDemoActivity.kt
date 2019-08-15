@@ -53,7 +53,7 @@ abstract class BaseDemoActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setUpMap() {
-        (supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
+        (supportFragmentManager.findFragmentById(R.id.fragment_map) as SupportMapFragment).getMapAsync(this)
     }
 
     /**
