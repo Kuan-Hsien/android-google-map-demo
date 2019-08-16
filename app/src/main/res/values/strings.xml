@@ -23,6 +23,9 @@
     <!-- [Location] Simple demo -->
     <string name="title_activity_location_demo">[Location] Simple Demo</string>
 
+    <!-- [Location] Custom Button demo -->
+    <string name="title_activity_location_custom_button_demo">[Location] Custom Button Demo</string>
+
     <!-- [Polygon] Simple demo -->
     <string name="title_activity_polygon_demo">[Polygon] Simple Demo</string>
 
