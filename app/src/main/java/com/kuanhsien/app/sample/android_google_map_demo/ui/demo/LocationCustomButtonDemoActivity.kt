@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -16,10 +17,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.kuanhsien.app.sample.android_google_map_demo.R
-import com.kuanhsien.app.sample.android_google_map_demo.common.MapConstants.TAG_DEMO
+import com.kuanhsien.app.sample.android_google_map_demo.common.MapConstants
+import kotlinx.android.synthetic.main.activity_maps_location_custom_button.*
 
 
-class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
+class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val tag = this.javaClass.simpleName
     private var googleMap: GoogleMap? = null
@@ -53,7 +55,7 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_maps)
+        setContentView(R.layout.activity_maps_location_custom_button)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         (supportFragmentManager.findFragmentById(R.id.fragment_map) as SupportMapFragment).getMapAsync(this)
@@ -76,8 +78,14 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
-        // Prompt the user for permission.
-        getLocationPermission()
+        // disable default myLocationButton
+        map.uiSettings.isMyLocationButtonEnabled = false
+        btn_my_location.isVisible = true
+        btn_my_location.setOnClickListener {
+
+            // check and request permission
+            getLocationPermission()
+        }
     }
 
 
@@ -155,14 +163,11 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
             mLastKnownLocation = null
         }
 
-        googleMap?.let { map ->
-            try {
-                map.isMyLocationEnabled = hasPermission
-                map.uiSettings.isMyLocationButtonEnabled = hasPermission
+        try {
+            googleMap?.isMyLocationEnabled = hasPermission
 
-            } catch (e: SecurityException) {
-                Log.e(TAG_DEMO, "[$tag] Exception: ${e.message}")
-            }
+        } catch (e: SecurityException) {
+            Log.e(MapConstants.TAG_DEMO, "[$tag] Exception: ${e.message}")
         }
     }
 
@@ -195,8 +200,8 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
                                 LatLng(mLastKnownLocation!!.latitude,
                                     mLastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
                     } else {
-                        Log.d(TAG_DEMO, "[$tag] Current location is null. Using defaults.")
-                        Log.e(TAG_DEMO, "[$tag] Exception: %s", task.exception)
+                        Log.d(MapConstants.TAG_DEMO, "[$tag] Current location is null. Using defaults.")
+                        Log.e(MapConstants.TAG_DEMO, "[$tag] Exception: %s", task.exception)
 
                         Toast.makeText(this, "Current location is null. Using default location", Toast.LENGTH_LONG)
                             .show()
@@ -209,10 +214,9 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         } catch (e: SecurityException) {
-            Log.e(TAG_DEMO, "[$tag] Exception: ${e.message}")
+            Log.e(MapConstants.TAG_DEMO, "[$tag] Exception: ${e.message}")
         }
     }
-    
 
     /**
      *  5. Save the map's camera position and the device location. When a user rotates an Android device,

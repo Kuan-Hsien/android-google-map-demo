@@ -80,6 +80,12 @@
             android:label="@string/title_activity_location_demo">
         </activity>
 
+        <!-- [Location] Custom Button demo -->
+        <activity
+            android:name=".ui.demo.LocationCustomButtonDemoActivity"
+            android:label="@string/title_activity_location_custom_button_demo">
+        </activity>
+
         <!-- [Polygon] Simple demo -->
         <activity
             android:name=".ui.demo.PolygonDemoActivity"

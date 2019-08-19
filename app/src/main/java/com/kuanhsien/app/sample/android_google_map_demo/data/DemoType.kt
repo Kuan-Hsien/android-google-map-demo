@@ -12,6 +12,7 @@ enum class DemoType(val titleRes: Int, val activityClass: Class<out AppCompatAct
     ClusterCustomMarkerDemo(R.string.title_activity_cluster_custom_marker_demo, ClusterCustomMarkerDemoActivity::class.java),
     IconGeneratorDemo(R.string.title_activity_icon_generator_demo, IconGeneratorDemoActivity::class.java),
     LocationDemo(R.string.title_activity_location_demo, LocationDemoActivity::class.java),
+    LocationCustomButtonDemo(R.string.title_activity_location_custom_button_demo, LocationCustomButtonDemoActivity::class.java),
     PolygonDemo(R.string.title_activity_polygon_demo, PolygonDemoActivity::class.java)
     ;
 
