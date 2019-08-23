@@ -31,17 +31,17 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
 
     private val tag = this.javaClass.simpleName
     private var googleMap: GoogleMap? = null
-    private var mCameraPosition: CameraPosition? = null
+    private var cameraPosition: CameraPosition? = null
 
     // The entry point to the Fused Location Provider.
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is not granted.
-    private val mDefaultLocation = LatLng(-33.8523341, 151.2106085)
+    private val defaultLocation = LatLng(-33.8523341, 151.2106085)
 
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
-    private var mLastKnownLocation: Location? = null
+    private var lastKnownLocation: Location? = null
 
     // Is first time to show permission dialog
     private var isFirstTimeRequestPermission: Boolean = true
@@ -59,8 +59,8 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
-            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
+            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
+            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
 
         // Retrieve the content view that renders the map.
@@ -78,7 +78,8 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
         super.onResume()
 
         // if already has permission, call showCurrentLocation()
-        // this would also be called when user allow this permission in settings page, and back to this app
+        // this would also be called when (1) user allow this permission in settings page, and back to this app
+        // (2) user exit original default permission dialog
         if (checkPermissions()) {
             showCurrentLocation()
         }
@@ -100,7 +101,7 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
         // 1. disable default myLocationButton
         map.uiSettings.isMyLocationButtonEnabled = false
 
-        // 2. setUp onClickListener for customized location button
+        // 2. setUp onClickListener for customized location button (only visible after onMapReady)
         btn_my_location_disable.isVisible = true
         btn_my_location_enable.isVisible = true
         btn_my_location_disable.setOnClickListener {
@@ -251,7 +252,7 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
     private fun setLocationLayerUI(hasPermission: Boolean) {
 
         if (!hasPermission) {
-            mLastKnownLocation = null
+            lastKnownLocation = null
         }
 
         try {
@@ -280,18 +281,21 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
          * cases when a location is not available.
          */
         try {
-            val locationResult = fusedLocationProviderClient.lastLocation
-
-            locationResult.addOnCompleteListener(this) { task ->
+            fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
 
                 googleMap?.let { map ->
-                    if (task.isSuccessful) {
+                    if (task.isSuccessful && task.result != null) {
                         // Set the map's camera position to the current location of the device.
-                        mLastKnownLocation = task.result
+                        lastKnownLocation = task.result
                         map.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
-                                LatLng(mLastKnownLocation!!.latitude,
-                                    mLastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+                                LatLng(
+                                    lastKnownLocation!!.latitude,
+                                    lastKnownLocation!!.longitude
+                                ), DEFAULT_ZOOM.toFloat()
+                            )
+                        )
+
                     } else {
                         Log.d(TAG_DEMO, "[$tag] Current location is null. Using defaults.")
                         Log.e(TAG_DEMO, "[$tag] Exception: %s", task.exception)
@@ -301,7 +305,7 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
 
                         map.moveCamera(
                             CameraUpdateFactory
-                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()))
+                                .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat()))
                         map.uiSettings.isMyLocationButtonEnabled = false
                     }
                 }
@@ -321,7 +325,7 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
     override fun onSaveInstanceState(outState: Bundle) {
         googleMap?.let { map ->
             outState.putParcelable(KEY_CAMERA_POSITION, map.cameraPosition)
-            outState.putParcelable(KEY_LOCATION, mLastKnownLocation)
+            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
             super.onSaveInstanceState(outState)
         }
     }
