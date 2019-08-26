@@ -1,6 +1,5 @@
 package com.kuanhsien.app.sample.android_google_map_demo.util
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -10,9 +9,8 @@ import androidx.fragment.app.Fragment
 
 object PermissionUtil {
 
-    fun hasPermission(context: Context, permission: String): Boolean {
-        return PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, permission)
-    }
+    fun hasPermission(context: Context, permission: String) =
+        PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(context, permission)
 
     fun hasPermissions(context: Context, permissions: List<String>): Boolean {
         var ret = true
@@ -29,5 +27,8 @@ object PermissionUtil {
     fun requestPermissions(fragment: Fragment, permissions: List<String>, id: Int) {
         fragment.requestPermissions(permissions.toTypedArray(), id)
     }
+
+    fun shouldShowRequestPermissionRationale(activity: Activity, permission: String) =
+        ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
 
 }
