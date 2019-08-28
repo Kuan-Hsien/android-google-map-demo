@@ -267,7 +267,7 @@ class LocationCustomButtonDemoActivity : AppCompatActivity(), OnMapReadyCallback
      *  5. Get the location of the Android device and position the map's camera. This fun would be called when
      *      (1) click MyLocationButton
      *      (2) onRequestPermissionsResult (when successfully get location permission)
-     *      (3) while cameraPosition is null and have locaiton permission
+     *      (3) while cameraPosition is null and have location permission
      *          => onMapReady / onResume would call moveCameraOnMap(false)
      */
     private fun refreshDeviceLocation() {

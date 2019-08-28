@@ -1,39 +1,46 @@
 package com.kuanhsien.app.sample.android_google_map_demo.ui.demo
 
+import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.kuanhsien.app.sample.android_google_map_demo.BuildConfig
 import com.kuanhsien.app.sample.android_google_map_demo.R
 import com.kuanhsien.app.sample.android_google_map_demo.common.MapConstants.TAG_DEMO
+import com.kuanhsien.app.sample.android_google_map_demo.util.PermissionUtil
 
 
-class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
+class LocationDemoActivity :
+        AppCompatActivity(),
+        OnMapReadyCallback {
 
     private val tag = this.javaClass.simpleName
     private var googleMap: GoogleMap? = null
-    private var mCameraPosition: CameraPosition? = null
 
     // The entry point to the Fused Location Provider.
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    // A default location (Sydney, Australia) and default zoom to use when location permission is not granted.
-    private val mDefaultLocation = LatLng(-33.8523341, 151.2106085)
-
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
-    private var mLastKnownLocation: Location? = null
+    private var lastKnownLocation: Location? = null
+
+    // Is first time to show permission dialog
+    private var isFirstTimeRequestPermission: Boolean = true
+
 
     /**
      *  1. Add a map
@@ -48,8 +55,7 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
-            mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
-            mCameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
+            this.lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
         }
 
         // Retrieve the content view that renders the map.
@@ -61,6 +67,19 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
         // Main entry point for interacting with the fused location provider.
         // or use fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationProviderClient = FusedLocationProviderClient(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        showLocationLayer(PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
+
+        // if already has permission, call showDeviceLocation()
+        // this would also be called when (1) user allow this permission in settings page, and back to this app
+        // (2) user exit original default permission dialog
+        if (PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            showDeviceLocation()
+        }
     }
 
     /**
@@ -76,8 +95,15 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
-        // Prompt the user for permission.
-        getLocationPermission()
+        // Set up location layer and UI based on permissions
+        showLocationLayer(PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
+
+        // If already has permission, call showDeviceLocation()
+        if (PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            showDeviceLocation()
+        } else {
+            requestPermissions()
+        }
     }
 
 
@@ -90,28 +116,30 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
      *     2.2. Request runtime permissions.
      *          Checks whether the user has granted fine location permission. If not, it requests the permission.
      */
-    private fun getLocationPermission() {
-        // If already get permission
-        if (ContextCompat.checkSelfPermission(this.applicationContext,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+    private fun requestPermissions() {
+        when {
+            // First time to request permission, user have not click OK before
+            isFirstTimeRequestPermission -> {
+                Log.d(TAG_DEMO, "[$tag] First time to request permission")
+                showRequestPermissionDialog()
+            }
 
-            // Turn on the My Location layer and the related control on the map.
-            setLocationLayerUI(true)
+            // Provide an additional rationale to the user. This would happen if the user denied the
+            // request previously, but didn't check the "Don't ask again" checkbox.
+            ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                Log.d(TAG_DEMO, "[$tag] Displaying permission rationale to provide additional context.")
+                showRequestPermissionDialog()
+            }
 
-            // Get the current location of the device and set the position of the map.
-            showDeviceLocation()
-
-        } else {
-
-            setLocationLayerUI(false)
-
-            /*
-             * Request location permission, so that we can get the location of the
-             * device. The result of the permission request is handled by a callback,
-             * onRequestPermissionsResult.
-             */
-            ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
+            // Request permission. It's possible this can be auto answered if device policy
+            // sets the permission in a given state or the user denied the permission
+            // previously and checked "Never ask again".
+            else -> {
+                Log.d(TAG_DEMO, "[$tag] Requesting permission")
+                PermissionUtil.requestPermissions(this, listOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_PERMISSIONS_ACCESS_FINE_LOCATION
+                )
+            }
         }
     }
 
@@ -122,47 +150,48 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
-            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+            REQUEST_PERMISSIONS_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // Turn on the My Location layer and the related control on the map.
-                    setLocationLayerUI(true)
-
-                    // Get the current location of the device and set the position of the map.
+                    Log.d(TAG_DEMO, "[$tag] User grant permissions.")
+                    showLocationLayer(PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
                     showDeviceLocation()
 
-                } else {
+                } else if (grantResults.isEmpty() ) {
+                    // user cancel request, the result arrays are empty
+                    Log.d(TAG_DEMO, "[$tag] User interaction was cancelled.")
 
-                    setLocationLayerUI(false)
-                    Toast.makeText(this, "Please grant permission to show your location", Toast.LENGTH_LONG).show()
+                } else {
+                    // Additionally, it is important to remember that a permission might have been
+                    // rejected without asking the user for permission (device policy or "Never ask
+                    // again" prompts). Therefore, a user interface affordance is typically implemented
+                    // when permissions are denied. Otherwise, your app could appear unresponsive to
+                    // touches or interactions which have required permissions.
+                    showRequestPermissionInSettingDialog()
                 }
             }
         }
     }
 
     /**
-     *  3. Use setLocationLayerUI() method to set the location controls on the map.
+     *  3. Use showLocationLayer() method to set the location controls on the map.
      *       If the user has granted location permission, enable the My Location layer
      *       and the related control on the map,
      *       otherwise disable the layer and the control, and set the current location to null:
      *
      *  Updates the map's UI settings based on whether the user has granted location permission.
      */
-    private fun setLocationLayerUI(hasPermission: Boolean) {
-
-        if (!hasPermission) {
-            mLastKnownLocation = null
+    private fun showLocationLayer(isPermissionGranted: Boolean) {
+        if (!isPermissionGranted) {
+            this.lastKnownLocation = null
         }
 
-        googleMap?.let { map ->
-            try {
-                map.isMyLocationEnabled = hasPermission
-                map.uiSettings.isMyLocationButtonEnabled = hasPermission
-
-            } catch (e: SecurityException) {
-                Log.e(TAG_DEMO, "[$tag] Exception: ${e.message}")
-            }
+        try {
+            googleMap?.isMyLocationEnabled = isPermissionGranted
+            googleMap?.uiSettings?.isMyLocationButtonEnabled = isPermissionGranted
+        } catch (e: SecurityException) {
+            Log.e(TAG_DEMO, "[$tag] Exception: ${e.message}")
         }
     }
 
@@ -177,42 +206,41 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
      *  Gets the current location of the device, and positions the map's camera.
      */
     private fun showDeviceLocation() {
-        /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
-         */
         try {
-            val locationResult = fusedLocationProviderClient.lastLocation
+            fusedLocationProviderClient.lastLocation.addOnCompleteListener(this) { task ->
 
-            locationResult.addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    if (task.result != null) {
+                        this.lastKnownLocation = task.result
+                    } else {
+                        Log.d(TAG_DEMO, "[$tag] getLastLocation is null. Use lastKnownLocation.")
+                        Toast.makeText(this, "getLastLocation is null. Use lastKnownLocation.", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                } else {
+                    Log.e(TAG_DEMO, "[$tag] Exception: ${task.exception}")
+                    Toast.makeText(this, "getLastLocation Fail", Toast.LENGTH_LONG)
+                        .show()
+                }
 
                 googleMap?.let { map ->
-                    if (task.isSuccessful) {
-                        // Set the map's camera position to the current location of the device.
-                        mLastKnownLocation = task.result
-                        map.moveCamera(
+                    // Set the map's camera position to the current location of the device.
+                    this.lastKnownLocation?.let { lastKnownLocation ->
+                        map.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(
-                                LatLng(mLastKnownLocation!!.latitude,
-                                    mLastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
-                    } else {
-                        Log.d(TAG_DEMO, "[$tag] Current location is null. Using defaults.")
-                        Log.e(TAG_DEMO, "[$tag] Exception: %s", task.exception)
-
-                        Toast.makeText(this, "Current location is null. Using default location", Toast.LENGTH_LONG)
-                            .show()
-
-                        map.moveCamera(
-                            CameraUpdateFactory
-                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()))
-                        map.uiSettings.isMyLocationButtonEnabled = false
-                    }
-                }
+                                LatLng(
+                                    lastKnownLocation.latitude,
+                                    lastKnownLocation.longitude
+                                ), DEFAULT_ZOOM.toFloat()
+                            )
+                        )
+                    } ?: Log.e(TAG_DEMO, "[$tag] lastKnownLocation is null")
+                } ?: Log.e(TAG_DEMO, "[$tag] GoogleMap is null")
             }
         } catch (e: SecurityException) {
             Log.e(TAG_DEMO, "[$tag] Exception: ${e.message}")
         }
     }
-    
 
     /**
      *  5. Save the map's camera position and the device location. When a user rotates an Android device,
@@ -222,19 +250,49 @@ class LocationDemoActivity : AppCompatActivity(), OnMapReadyCallback {
      *  Saves the state of the map when the activity is paused.
      */
     override fun onSaveInstanceState(outState: Bundle) {
-        googleMap?.let { map ->
-            outState.putParcelable(KEY_CAMERA_POSITION, map.cameraPosition)
-            outState.putParcelable(KEY_LOCATION, mLastKnownLocation)
-            super.onSaveInstanceState(outState)
-        }
+        outState.putParcelable(KEY_LOCATION, this.lastKnownLocation)
+        super.onSaveInstanceState(outState)
     }
+    
+    /**
+     *  Show dialog to explain the permission rationale
+     */
+    private fun showRequestPermissionDialog() =
+        AlertDialog.Builder(this)
+            .setMessage("Turn on location service to show current location")
+            .setPositiveButton("OK") { _, _ ->
+
+                isFirstTimeRequestPermission = false
+                PermissionUtil.requestPermissions(this, listOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_PERMISSIONS_ACCESS_FINE_LOCATION
+                )
+            }
+            .setNegativeButton("NO") { _, _ -> } // just dismiss dialog
+            .show()
+
+    /**
+     *  Show dialog to explain the permission rationale with action to open settings
+     */
+    private fun showRequestPermissionInSettingDialog() =
+        AlertDialog.Builder(this)
+            .setMessage("Location service is disabled. Grant permission to access current location in settings")
+            .setPositiveButton("OK") { _, _ ->
+
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton("NO") { _, _ -> } // just dismiss dialog
+            .show()
 
     companion object {
         private const val DEFAULT_ZOOM = 15
-        private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+        private const val REQUEST_PERMISSIONS_ACCESS_FINE_LOCATION = 1
 
         // Keys for storing activity state.
-        private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
     }
 }
