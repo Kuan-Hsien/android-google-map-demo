@@ -26,7 +26,9 @@ import com.kuanhsien.app.sample.android_google_map_demo.util.PermissionUtil
 
 class LocationDemoActivity :
         AppCompatActivity(),
-        OnMapReadyCallback {
+        OnMapReadyCallback,
+        GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener {
 
     private val tag = this.javaClass.simpleName
     private var googleMap: GoogleMap? = null
@@ -40,7 +42,6 @@ class LocationDemoActivity :
 
     // Is first time to show permission dialog
     private var isFirstTimeRequestPermission: Boolean = true
-
 
     /**
      *  1. Add a map
@@ -94,6 +95,10 @@ class LocationDemoActivity :
      */
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+
+        // Set onClickListener for default MyLocationButton
+        googleMap?.setOnMyLocationButtonClickListener(this)
+        googleMap?.setOnMyLocationClickListener(this)
 
         // Set up location layer and UI based on permissions
         showLocationLayer(PermissionUtil.hasPermission(this, Manifest.permission.ACCESS_FINE_LOCATION))
@@ -253,7 +258,21 @@ class LocationDemoActivity :
         outState.putParcelable(KEY_LOCATION, this.lastKnownLocation)
         super.onSaveInstanceState(outState)
     }
-    
+
+    /**
+     *  6. set My Location onClickListener
+     */
+    override fun onMyLocationClick(location: Location) {
+        Toast.makeText(this, "Current location:\n$location", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false
+    }
+
     /**
      *  Show dialog to explain the permission rationale
      */
