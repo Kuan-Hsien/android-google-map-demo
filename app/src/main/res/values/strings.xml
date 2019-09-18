@@ -11,20 +11,23 @@
 
     <!-- [Cluster] Simple demo -->
     <!-- A simple activity demonstrating marker clustering -->
-    <string name="title_activity_cluster_demo">[Cluster] Marker clustering demo</string>
+    <string name="title_activity_cluster_demo">[Cluster] Marker Clustering Demo</string>
 
     <!-- [Cluster] Custom Marker clustering demo -->
     <!-- Demonstrates heavy customisation of the look of rendered clusters. -->
-    <string name="title_activity_cluster_custom_marker_demo">[Cluster] Custom Marker clustering demo</string>
+    <string name="title_activity_cluster_custom_marker_demo">[Cluster] Custom Marker Clustering Demo</string>
 
     <!-- [IconGenerator] Simple demo -->
-    <string name="title_activity_icon_generator_demo">[Icon Generator] Simple demo</string>
+    <string name="title_activity_icon_generator_demo">[Icon Generator] Simple Demo</string>
 
     <!-- [Location] Simple demo -->
     <string name="title_activity_location_demo">[Location] Simple Demo</string>
 
     <!-- [Location] Custom Button demo -->
     <string name="title_activity_location_custom_button_demo">[Location] Custom Button Demo</string>
+
+    <!-- [Navigation] Simple demo -->
+    <string name="title_activity_navigation_demo">[Navigation] Simple Demo</string>
 
     <!-- [Polygon] Simple demo -->
     <string name="title_activity_polygon_demo">[Polygon] Simple Demo</string>

@@ -95,6 +95,12 @@
             android:label="@string/title_activity_location_custom_button_demo">
         </activity>
 
+        <!-- [Navigation] Simple demo -->
+        <activity
+            android:name=".ui.demo.NavigationDemoActivity"
+            android:label="@string/title_activity_navigation_demo">
+        </activity>
+        
         <!-- [Polygon] Simple demo -->
         <activity
             android:name=".ui.demo.PolygonDemoActivity"
